@@ -1,0 +1,125 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Donately
+providerId: donately
+created: '2026-07-05'
+modified: '2026-07-05'
+reconciled: false
+tags:
+- Fundraising
+- Donations
+- Nonprofit
+- Payments
+- Plans
+description: >-
+  Donately pricing is built around a platform fee taken on each processed
+  donation, not around API access. Every plan includes the full platform (100+
+  features, customizable forms, campaign and peer-to-peer pages, integrations,
+  reporting) and full REST API access; the plans differ only in the platform fee
+  percentage. There are three tiers - Standard (4% platform fee, pay-as-you-go,
+  no monthly commitment), Growth (2% platform fee for $99/month), and Scale (0%
+  platform fee for a one-time $5,000 prepayment covering up to $1,000,000 raised).
+  The platform fee is separate from and stacked on top of payment processing
+  fees charged by Stripe and PayPal. Donors can optionally elect to cover the
+  platform fee at checkout, and offline donations (cash/check) carry no fee.
+notes: >-
+  Prices confirmed from donately.com/pricing on 2026-07-05: Standard 4%, Growth
+  2% at $99/mo, Scale 0% for $5,000 prepaid up to $1M raised. Payment processing
+  (Stripe/PayPal ~2.2-2.9% + $0.30 for cards; Stripe ACH 0.8% capped at $5) is
+  billed separately by the processor, not by Donately. Verify current numbers on
+  the pricing page during reconciliation. The API itself carries no separate fee.
+sources:
+- https://www.donately.com/pricing
+- https://www.donately.com/
+- https://developer.donately.com/
+plans:
+- id: donately-standard
+  name: Standard
+  type: usage
+  description: >-
+    Pay-as-you-go with no monthly commitment. A 4% Donately platform fee is
+    applied to each processed donation. Includes the full platform and API.
+  entries:
+  - label: Platform Fee
+    name: platform_fee
+    type: usage
+    metric: percent_of_donation
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 4% of each processed donation
+    userMultiplied: false
+  elements:
+  - name: All Fundraising Features
+  - name: Customizable Donation Forms
+  - name: Campaign and Peer-to-Peer Pages
+  - name: Integrations
+  - name: REST API Access
+  - name: Reporting and Dashboards
+- id: donately-growth
+  name: Growth
+  type: subscription
+  description: >-
+    Lower 2% platform fee for a $99/month subscription, cancel anytime. Best for
+    growing organizations wanting to keep more net revenue.
+  entries:
+  - label: Monthly Subscription
+    name: monthly_subscription
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $99 per month
+    userMultiplied: false
+  - label: Platform Fee
+    name: platform_fee
+    type: usage
+    metric: percent_of_donation
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 2% of each processed donation
+    userMultiplied: false
+  elements:
+  - name: All Standard Features
+  - name: Reduced Platform Fee
+- id: donately-scale
+  name: Scale
+  type: prepaid
+  description: >-
+    One-time $5,000 prepayment for a 0% platform fee on up to $1,000,000 in
+    processed donations. Best for high-volume organizations eliminating platform
+    fees entirely.
+  entries:
+  - label: One-Time Prepayment
+    name: prepayment
+    type: flat
+    metric: contract
+    limit: 1
+    timeFrame: lifetime
+    geo: global
+    unit: 1
+    price: $5,000 one-time
+    userMultiplied: false
+  - label: Platform Fee
+    name: platform_fee
+    type: usage
+    metric: percent_of_donation
+    limit: 100000000
+    timeFrame: lifetime
+    geo: global
+    unit: 1
+    price: 0% (on up to $1,000,000 raised)
+    userMultiplied: false
+  elements:
+  - name: Zero Platform Fee
+  - name: Up to $1M in Processed Donations
+  - name: All Fundraising Features
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

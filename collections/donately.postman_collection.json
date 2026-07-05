@@ -1,0 +1,238 @@
+{
+  "info": {
+    "name": "Donately API",
+    "description": "Donately REST/JSON API for online donation and fundraising management: accounts, campaigns, donations, subscriptions, people (donors), and fundraisers. Base URL https://api.donately.com/v2 (version 2019-03-15). Auth is an API token via HTTP Basic Auth (token as username, empty password), found in the Donately dashboard under Settings -> API. Most endpoints require an account_id parameter. Endpoints marked MODELED follow Donately's Stripe-style REST conventions and should be verified against developer.donately.com/api.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "{{apiToken}}", "type": "string" },
+      { "key": "password", "value": "", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.donately.com/v2", "type": "string" },
+    { "key": "apiToken", "value": "", "type": "string" },
+    { "key": "accountId", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Donations",
+      "item": [
+        {
+          "name": "List donations (CONFIRMED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/donations?account_id={{accountId}}", "host": ["{{baseUrl}}"], "path": ["donations"], "query": [{ "key": "account_id", "value": "{{accountId}}" }] },
+            "description": "Returns donations for the specified account."
+          }
+        },
+        {
+          "name": "Create a donation (CONFIRMED)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"account_id\": \"{{accountId}}\",\n  \"amount_in_cents\": 2500,\n  \"donation_type\": \"cc\"\n}" },
+            "url": { "raw": "{{baseUrl}}/donations", "host": ["{{baseUrl}}"], "path": ["donations"] },
+            "description": "Creates a new donation. donation_type accepts cc, ach, cash, or paypal. Can be called unauthenticated for public campaign donations."
+          }
+        },
+        {
+          "name": "Retrieve a donation (MODELED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/donations/:id", "host": ["{{baseUrl}}"], "path": ["donations", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single donation by ID. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Refund a donation (MODELED)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/donations/:id/refund", "host": ["{{baseUrl}}"], "path": ["donations", ":id", "refund"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Refunds a donation. MODELED - verify against the live reference."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Campaigns",
+      "item": [
+        {
+          "name": "List campaigns (CONFIRMED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/campaigns?account_id={{accountId}}", "host": ["{{baseUrl}}"], "path": ["campaigns"], "query": [{ "key": "account_id", "value": "{{accountId}}" }] },
+            "description": "Returns campaigns for the specified account."
+          }
+        },
+        {
+          "name": "Create a campaign (MODELED)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"account_id\": \"{{accountId}}\",\n  \"title\": \"My Campaign\"\n}" },
+            "url": { "raw": "{{baseUrl}}/campaigns", "host": ["{{baseUrl}}"], "path": ["campaigns"] },
+            "description": "Creates a new campaign. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Retrieve a campaign (MODELED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/campaigns/:id", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single campaign by ID. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Update a campaign (CONFIRMED)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Updated Campaign Title\"\n}" },
+            "url": { "raw": "{{baseUrl}}/campaigns/:id", "host": ["{{baseUrl}}"], "path": ["campaigns", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates an existing campaign."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "List subscriptions (CONFIRMED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/subscriptions?account_id={{accountId}}", "host": ["{{baseUrl}}"], "path": ["subscriptions"], "query": [{ "key": "account_id", "value": "{{accountId}}" }] },
+            "description": "Returns recurring subscriptions for the specified account."
+          }
+        },
+        {
+          "name": "Retrieve a subscription (CONFIRMED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/subscriptions/:id", "host": ["{{baseUrl}}"], "path": ["subscriptions", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single subscription by its unique identifier."
+          }
+        },
+        {
+          "name": "Cancel a subscription (MODELED)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/subscriptions/:id", "host": ["{{baseUrl}}"], "path": ["subscriptions", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Cancels a recurring subscription. MODELED - verify against the live reference."
+          }
+        }
+      ]
+    },
+    {
+      "name": "People",
+      "item": [
+        {
+          "name": "List people (MODELED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/people?account_id={{accountId}}", "host": ["{{baseUrl}}"], "path": ["people"], "query": [{ "key": "account_id", "value": "{{accountId}}" }] },
+            "description": "Returns people (donors/contacts) for the account. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Create a person (MODELED)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"account_id\": \"{{accountId}}\",\n  \"email\": \"donor@example.com\"\n}" },
+            "url": { "raw": "{{baseUrl}}/people", "host": ["{{baseUrl}}"], "path": ["people"] },
+            "description": "Creates a new person. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Retrieve a person (MODELED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/people/:id", "host": ["{{baseUrl}}"], "path": ["people", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single person by ID. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Update a person (MODELED)",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"first_name\": \"Jane\"\n}" },
+            "url": { "raw": "{{baseUrl}}/people/:id", "host": ["{{baseUrl}}"], "path": ["people", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Updates an existing person. MODELED - verify against the live reference."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fundraisers",
+      "item": [
+        {
+          "name": "List fundraisers (MODELED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/fundraisers?account_id={{accountId}}", "host": ["{{baseUrl}}"], "path": ["fundraisers"], "query": [{ "key": "account_id", "value": "{{accountId}}" }] },
+            "description": "Returns peer-to-peer fundraisers for the account or campaign. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Create a fundraiser (MODELED)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"account_id\": \"{{accountId}}\",\n  \"campaign_id\": \"\",\n  \"title\": \"My Fundraiser\"\n}" },
+            "url": { "raw": "{{baseUrl}}/fundraisers", "host": ["{{baseUrl}}"], "path": ["fundraisers"] },
+            "description": "Creates a new peer-to-peer fundraiser under a campaign. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Retrieve a fundraiser (MODELED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/fundraisers/:id", "host": ["{{baseUrl}}"], "path": ["fundraisers", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single fundraiser by ID. MODELED - verify against the live reference."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Accounts",
+      "item": [
+        {
+          "name": "List accounts (MODELED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/accounts", "host": ["{{baseUrl}}"], "path": ["accounts"] },
+            "description": "Lists accounts the token can access. MODELED - verify against the live reference."
+          }
+        },
+        {
+          "name": "Retrieve an account (MODELED)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/accounts/:id", "host": ["{{baseUrl}}"], "path": ["accounts", ":id"], "variable": [{ "key": "id", "value": "" }] },
+            "description": "Retrieves a single account by ID. MODELED - verify against the live reference."
+          }
+        }
+      ]
+    }
+  ]
+}

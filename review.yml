@@ -1,0 +1,111 @@
+aid: donately
+name: Donately
+review:
+  question: Does Donately expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-05'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Donately's public API surface is
+    request/response REST over HTTPS under https://api.donately.com/v2. The only
+    server-push mechanism Donately documents is outbound webhooks - Donately
+    POSTs event notifications to a URL you register - which is server-to-endpoint
+    HTTP, not a WebSocket or SSE stream on Donately's own API. There is no
+    server-push transport on Donately's own API to model.
+findings:
+  summary: |
+    Donately does not publish a documented public WebSocket API. Donately is an
+    online donation and fundraising platform for nonprofits. Its public API is a
+    REST/JSON API at base https://api.donately.com/v2 (API version 2019-03-15),
+    authenticated with an API token via standard HTTP Basic Auth (the token is
+    base64-encoded with a trailing colon; the token is found in the Donately
+    dashboard under Settings -> API / dash.donately.com/integrations/api). Most
+    endpoints require an account_id parameter identifying which account to
+    operate against. The API covers accounts, campaigns, donations, recurring
+    subscriptions, people (donors), fundraisers, forms, and webhooks. All
+    documented interaction is request/response REST over HTTPS. The only
+    push-style mechanism is outbound webhooks (Donately POSTs to a URL you
+    register). No realtime, bidirectional, or streaming WebSocket (ws:// or
+    wss://) endpoint is documented anywhere on Donately's API.
+  accessModel: |
+    Donately is a hosted SaaS platform (not open source). Anyone with a Donately
+    account can generate an API token from the dashboard and call the REST API.
+    The POST /donations create endpoint can additionally be called
+    unauthenticated for public campaign donations, which is how the embeddable
+    donation form submits gifts from the browser.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.donately.com/v2
+      documented: true
+      note: JSON request/response REST API, HTTP Basic Auth with an API token. API version 2019-03-15.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Donately POSTs event notifications to a URL you register via the Webhooks endpoints. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Donately's API reference as of the review date.
+  endpointsConfirmedRest:
+    - POST https://api.donately.com/v2/donations
+    - GET  https://api.donately.com/v2/donations
+    - GET  https://api.donately.com/v2/campaigns
+    - PATCH https://api.donately.com/v2/campaigns/{id}
+    - GET  https://api.donately.com/v2/subscriptions
+    - GET  https://api.donately.com/v2/subscriptions/{id}
+    - GET  https://api.donately.com/v2/forms/{id}
+    - POST https://api.donately.com/v2/forms
+    - PATCH https://api.donately.com/v2/forms/{id}
+    - GET  https://api.donately.com/v2/webhooks
+    - GET  https://api.donately.com/v2/webhooks/{id}
+    - POST https://api.donately.com/v2/webhooks
+  endpointsModeled:
+    - note: >-
+        Donately's docs render as a JavaScript single-page app that could not be
+        fully crawled. The endpoints below follow Donately's Stripe-style REST
+        conventions (collection + item CRUD under each resource) and are modeled
+        for completeness; verify exact paths and supported verbs against the live
+        reference at developer.donately.com/api before relying on them.
+    - GET    https://api.donately.com/v2/accounts
+    - GET    https://api.donately.com/v2/accounts/{id}
+    - GET    https://api.donately.com/v2/donations/{id}
+    - POST   https://api.donately.com/v2/donations/{id}/refund
+    - POST   https://api.donately.com/v2/campaigns
+    - GET    https://api.donately.com/v2/campaigns/{id}
+    - DELETE https://api.donately.com/v2/campaigns/{id}
+    - GET    https://api.donately.com/v2/people
+    - POST   https://api.donately.com/v2/people
+    - GET    https://api.donately.com/v2/people/{id}
+    - PATCH  https://api.donately.com/v2/people/{id}
+    - GET    https://api.donately.com/v2/fundraisers
+    - POST   https://api.donately.com/v2/fundraisers
+    - GET    https://api.donately.com/v2/fundraisers/{id}
+    - PATCH  https://api.donately.com/v2/fundraisers/{id}
+    - DELETE https://api.donately.com/v2/subscriptions/{id}
+sources:
+  - url: https://developer.donately.com/
+    type: Documentation
+    note: Donately Developer Hub. API is REST at https://api.donately.com/v2, version 2019-03-15, HTTP Basic Auth. No WebSocket mentioned.
+  - url: https://developer.donately.com/api/
+    type: APIReference
+    note: API reference (JavaScript SPA) covering accounts, campaigns, donations, subscriptions, people, fundraisers, forms, webhooks.
+  - url: https://tray.ai/documentation/connectors/service/donately
+    type: Documentation
+    note: Third-party connector docs confirming base URL https://api.donately.com/v2, Account ID + API Token auth, and donation/campaign/webhook operations.
+  - url: https://github.com/donately
+    type: SourceCode
+    note: Donately GitHub org (PHP/WordPress plugins and helpers). Core platform is closed-source SaaS.
+  - url: https://www.donately.com/pricing
+    type: Pricing
+    note: Platform fee tiers (4% / 2% / 0% prepaid) on top of Stripe/PayPal processing fees.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Donately's public API is
+    request/response REST (https://api.donately.com/v2) with outbound webhooks
+    for event delivery. No AsyncAPI document was created because there is no
+    server-push transport (WebSocket or SSE) on Donately's own API to model;
+    webhooks are server-to-endpoint HTTP callbacks, not a subscribed stream.

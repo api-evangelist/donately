@@ -1,0 +1,180 @@
+aid: donately
+url: https://raw.githubusercontent.com/api-evangelist/donately/refs/heads/main/apis.yml
+name: Donately
+kind: company
+description: Donately is an online donation and fundraising platform for nonprofits,
+  churches, and businesses, offering embeddable donation forms, campaign and
+  peer-to-peer fundraising pages, recurring giving, and donor management. Its
+  REST API (base https://api.donately.com/v2, version 2019-03-15) exposes
+  accounts, campaigns, donations, recurring subscriptions, people (donors),
+  fundraisers, forms, and webhooks, authenticated with an API token via HTTP
+  Basic Auth. Donately charges a platform fee (4%, 2%, or 0% prepaid) on top of
+  Stripe/PayPal payment processing.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Fundraising
+- Donations
+- Nonprofit
+- Payments
+- Donor Management
+- Recurring Giving
+created: '2026-07-05'
+modified: '2026-07-05'
+specificationVersion: '0.19'
+apis:
+- aid: donately:donately-donations-api
+  name: Donately Donations API
+  tags:
+  - Donations
+  - Payments
+  - Giving
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.donately.com/api/
+  baseURL: https://api.donately.com/v2
+  properties:
+  - url: https://developer.donately.com/
+    type: Documentation
+  - url: https://developer.donately.com/api/
+    type: APIReference
+  - url: openapi/donately-openapi.yml
+    type: OpenAPI
+  - url: collections/donately.postman_collection.json
+    type: PostmanCollection
+  - url: collections/donately.opencollection.json
+    type: OpenCollection
+  description: Create, list, retrieve, and refund donations against an account or
+    campaign. The create endpoint accepts donation_type values of cc, ach, cash,
+    and paypal and can be called unauthenticated from public embeddable forms.
+- aid: donately:donately-people-api
+  name: Donately People API
+  tags:
+  - People
+  - Donors
+  - Contacts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.donately.com/api/
+  baseURL: https://api.donately.com/v2
+  properties:
+  - url: https://developer.donately.com/
+    type: Documentation
+  - url: https://developer.donately.com/api/
+    type: APIReference
+  - url: openapi/donately-openapi.yml
+    type: OpenAPI
+  - url: collections/donately.postman_collection.json
+    type: PostmanCollection
+  - url: collections/donately.opencollection.json
+    type: OpenCollection
+  description: Manage the people (donors and contacts) attached to an account -
+    create, list, retrieve, and update person records including name, email, and
+    associated giving history.
+- aid: donately:donately-campaigns-api
+  name: Donately Campaigns API
+  tags:
+  - Campaigns
+  - Fundraising Pages
+  - Goals
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.donately.com/api/
+  baseURL: https://api.donately.com/v2
+  properties:
+  - url: https://developer.donately.com/
+    type: Documentation
+  - url: https://developer.donately.com/api/
+    type: APIReference
+  - url: openapi/donately-openapi.yml
+    type: OpenAPI
+  - url: collections/donately.postman_collection.json
+    type: PostmanCollection
+  - url: collections/donately.opencollection.json
+    type: OpenCollection
+  description: Create, list, retrieve, update, and delete campaigns - the
+    fundraising pages with goals, titles, and settings that donations and
+    fundraisers are organized under.
+- aid: donately:donately-fundraisers-api
+  name: Donately Fundraisers API
+  tags:
+  - Fundraisers
+  - Peer to Peer
+  - Teams
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.donately.com/api/
+  baseURL: https://api.donately.com/v2
+  properties:
+  - url: https://developer.donately.com/
+    type: Documentation
+  - url: https://developer.donately.com/api/
+    type: APIReference
+  - url: openapi/donately-openapi.yml
+    type: OpenAPI
+  - url: collections/donately.postman_collection.json
+    type: PostmanCollection
+  - url: collections/donately.opencollection.json
+    type: OpenCollection
+  description: Manage peer-to-peer fundraisers - individual or team fundraising
+    pages created under a campaign. Create, list, retrieve, and update fundraisers
+    with their own goals and personal messaging.
+- aid: donately:donately-subscriptions-api
+  name: Donately Subscriptions API
+  tags:
+  - Subscriptions
+  - Recurring
+  - Giving
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.donately.com/api/
+  baseURL: https://api.donately.com/v2
+  properties:
+  - url: https://developer.donately.com/
+    type: Documentation
+  - url: https://developer.donately.com/api/
+    type: APIReference
+  - url: openapi/donately-openapi.yml
+    type: OpenAPI
+  - url: collections/donately.postman_collection.json
+    type: PostmanCollection
+  - url: collections/donately.opencollection.json
+    type: OpenCollection
+  description: Recurring donation schedules. List subscriptions for an account,
+    retrieve a single subscription by ID, and cancel a subscription. Each
+    subscription generates donations on its configured frequency.
+- aid: donately:donately-accounts-api
+  name: Donately Accounts API
+  tags:
+  - Accounts
+  - Organizations
+  - Settings
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.donately.com/api/
+  baseURL: https://api.donately.com/v2
+  properties:
+  - url: https://developer.donately.com/
+    type: Documentation
+  - url: https://developer.donately.com/api/
+    type: APIReference
+  - url: openapi/donately-openapi.yml
+    type: OpenAPI
+  - url: collections/donately.postman_collection.json
+    type: PostmanCollection
+  - url: collections/donately.opencollection.json
+    type: OpenCollection
+  description: Retrieve and manage the accounts (organizations) a token has access
+    to. Most other endpoints require an account_id parameter identifying which
+    account to operate against.
+common:
+- type: GitHubOrganization
+  url: https://github.com/donately
+- type: LinkedIn
+  url: https://www.linkedin.com/company/donately
+- type: Website
+  url: https://www.donately.com
+- type: Documentation
+  url: https://developer.donately.com/
+- type: Plans
+  url: plans/donately-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/donately-rate-limits.yml
+- type: FinOps
+  url: finops/donately-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

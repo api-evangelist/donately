@@ -1,0 +1,146 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Donately API",
+    "version": "2019-03-15"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{apiToken}}",
+      "password": ""
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Donations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List donations (CONFIRMED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/donations?account_id={{accountId}}" },
+          "docs": "Returns donations for the specified account."
+        },
+        {
+          "info": { "name": "Create a donation (CONFIRMED)", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.donately.com/v2/donations", "body": { "type": "json", "data": "{\"account_id\":\"{{accountId}}\",\"amount_in_cents\":2500,\"donation_type\":\"cc\"}" } },
+          "docs": "Creates a new donation. donation_type accepts cc, ach, cash, or paypal. Can be called unauthenticated for public campaign donations."
+        },
+        {
+          "info": { "name": "Retrieve a donation (MODELED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/donations/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The donation ID." } ] },
+          "docs": "Retrieves a single donation by ID. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Refund a donation (MODELED)", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.donately.com/v2/donations/:id/refund", "params": [ { "name": "id", "value": "", "type": "path", "description": "The donation ID." } ], "body": { "type": "json", "data": "{}" } },
+          "docs": "Refunds a donation. MODELED - verify against the live reference."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Campaigns", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List campaigns (CONFIRMED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/campaigns?account_id={{accountId}}" },
+          "docs": "Returns campaigns for the specified account."
+        },
+        {
+          "info": { "name": "Create a campaign (MODELED)", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.donately.com/v2/campaigns", "body": { "type": "json", "data": "{\"account_id\":\"{{accountId}}\",\"title\":\"My Campaign\"}" } },
+          "docs": "Creates a new campaign. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Retrieve a campaign (MODELED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/campaigns/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The campaign ID." } ] },
+          "docs": "Retrieves a single campaign by ID. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Update a campaign (CONFIRMED)", "type": "http" },
+          "http": { "method": "PATCH", "url": "https://api.donately.com/v2/campaigns/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The campaign ID." } ], "body": { "type": "json", "data": "{\"title\":\"Updated Campaign Title\"}" } },
+          "docs": "Updates an existing campaign."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Subscriptions", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List subscriptions (CONFIRMED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/subscriptions?account_id={{accountId}}" },
+          "docs": "Returns recurring subscriptions for the specified account."
+        },
+        {
+          "info": { "name": "Retrieve a subscription (CONFIRMED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/subscriptions/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The subscription ID." } ] },
+          "docs": "Retrieves a single subscription by its unique identifier."
+        },
+        {
+          "info": { "name": "Cancel a subscription (MODELED)", "type": "http" },
+          "http": { "method": "DELETE", "url": "https://api.donately.com/v2/subscriptions/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The subscription ID." } ] },
+          "docs": "Cancels a recurring subscription. MODELED - verify against the live reference."
+        }
+      ]
+    },
+    {
+      "info": { "name": "People", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List people (MODELED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/people?account_id={{accountId}}" },
+          "docs": "Returns people (donors/contacts) for the account. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Create a person (MODELED)", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.donately.com/v2/people", "body": { "type": "json", "data": "{\"account_id\":\"{{accountId}}\",\"email\":\"donor@example.com\"}" } },
+          "docs": "Creates a new person. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Retrieve a person (MODELED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/people/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The person ID." } ] },
+          "docs": "Retrieves a single person by ID. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Update a person (MODELED)", "type": "http" },
+          "http": { "method": "PATCH", "url": "https://api.donately.com/v2/people/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The person ID." } ], "body": { "type": "json", "data": "{\"first_name\":\"Jane\"}" } },
+          "docs": "Updates an existing person. MODELED - verify against the live reference."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Fundraisers", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List fundraisers (MODELED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/fundraisers?account_id={{accountId}}" },
+          "docs": "Returns peer-to-peer fundraisers for the account or campaign. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Create a fundraiser (MODELED)", "type": "http" },
+          "http": { "method": "POST", "url": "https://api.donately.com/v2/fundraisers", "body": { "type": "json", "data": "{\"account_id\":\"{{accountId}}\",\"campaign_id\":\"\",\"title\":\"My Fundraiser\"}" } },
+          "docs": "Creates a new peer-to-peer fundraiser under a campaign. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Retrieve a fundraiser (MODELED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/fundraisers/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The fundraiser ID." } ] },
+          "docs": "Retrieves a single fundraiser by ID. MODELED - verify against the live reference."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Accounts", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List accounts (MODELED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/accounts" },
+          "docs": "Lists accounts the token can access. MODELED - verify against the live reference."
+        },
+        {
+          "info": { "name": "Retrieve an account (MODELED)", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.donately.com/v2/accounts/:id", "params": [ { "name": "id", "value": "", "type": "path", "description": "The account ID." } ] },
+          "docs": "Retrieves a single account by ID. MODELED - verify against the live reference."
+        }
+      ]
+    }
+  ]
+}

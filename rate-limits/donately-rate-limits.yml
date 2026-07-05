@@ -1,0 +1,52 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Donately
+providerId: donately
+created: '2026-07-05'
+modified: '2026-07-05'
+reconciled: false
+tags:
+- Fundraising
+- Donations
+- Nonprofit
+- Rate Limiting
+- Quotas
+description: >-
+  Donately does not publish fixed numeric rate limits for its REST API. The API
+  is a standard REST/JSON interface at https://api.donately.com/v2 authenticated
+  with an API token via HTTP Basic Auth. As with most donation platforms, callers
+  should implement retry with exponential backoff and honor any 429 Too Many
+  Requests responses. Donately's core value is metered by donation platform fees
+  rather than by API request volume, so there is no per-request billing.
+notes: >-
+  No numeric per-account or per-endpoint request limits are documented as of the
+  review date; the Donately reference renders as a JavaScript single-page app
+  that could not be fully crawled for headers or limit tables. Treat these limit
+  entries as not-published and verify against developer.donately.com if a signed
+  agreement requires guaranteed throughput.
+sources:
+- https://developer.donately.com/
+- https://developer.donately.com/api/
+- https://tray.ai/documentation/connectors/service/donately
+responseCodes:
+  throttled: 429
+limits:
+- name: REST API Requests
+  scope: account
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented for the Donately REST API.
+- name: Public Donation Create
+  scope: campaign
+  metric: requests
+  limit: not published
+  notes: POST /donations can be called unauthenticated from public forms; abuse protection is applied by Donately but no numeric limit is documented.
+policies:
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: Idempotency
+  description: When creating donations, guard against duplicate submissions on retries; verify whether Donately supports an idempotency key during reconciliation.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

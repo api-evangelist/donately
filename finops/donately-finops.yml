@@ -1,0 +1,100 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Donately
+providerId: donately
+created: '2026-07-05'
+modified: '2026-07-05'
+reconciled: false
+tags:
+- Fundraising
+- Donations
+- Nonprofit
+- Payments
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Donately spend. Donately's cost model is a platform fee taken
+  as a percentage of each processed donation (4% Standard, 2% Growth at $99/mo,
+  0% Scale for a $5,000 prepayment up to $1M raised), stacked on top of payment
+  processing fees charged separately by Stripe and PayPal (roughly 2.2-2.9% +
+  $0.30 per card transaction; Stripe ACH 0.8% capped at $5). The REST API itself
+  carries no separate metered fee - API usage does not appear on the invoice;
+  cost is driven entirely by donation volume and the chosen platform-fee tier.
+  Donors may optionally cover the platform fee at checkout, and offline
+  donations carry no fee.
+notes: >-
+  Platform-fee tiers confirmed from donately.com/pricing on 2026-07-05. Payment
+  processing fees are billed by the processor (Stripe/PayPal), not by Donately,
+  and should be tracked as a separate line item. Reconcile exact processing
+  rates and any donor-covered-fee offsets during a costing exercise.
+sources:
+- https://www.donately.com/pricing
+- https://www.donately.com/
+- https://developer.donately.com/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Donately
+serviceCategory: Fundraising and Payments
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: Donately
+  ServiceCategory: Fundraising and Payments
+  ProviderName: Donately
+  PublisherName: Donately
+  InvoiceIssuerName: Donately
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: platform_fee
+  description: Percentage platform fee applied to each processed donation (4% / 2% / 0% by tier).
+  unit: percent_of_donation
+  aggregation: sum
+  dimensions:
+  - account
+  - campaign
+  - plan
+- name: monthly_subscription
+  description: Flat monthly fee on the Growth plan ($99/month).
+  unit: months
+  aggregation: sum
+  dimensions:
+  - account
+- name: prepayment
+  description: One-time $5,000 prepayment on the Scale plan for 0% platform fee up to $1M raised.
+  unit: contract
+  aggregation: sum
+  dimensions:
+  - account
+- name: payment_processing
+  description: Card and ACH processing fees charged separately by Stripe/PayPal, not by Donately.
+  unit: percent_of_donation
+  aggregation: sum
+  dimensions:
+  - account
+  - processor
+principles:
+- name: Visibility
+  description: Track platform fees per account/campaign and separate them from processor fees; monitor total effective take rate on gross donations.
+- name: Allocation
+  description: Attribute donations to campaigns and fundraisers so platform-fee cost maps to fundraising initiatives.
+- name: Optimization
+  description: Compare tiers against projected donation volume - Growth's $99/mo breaks even against Standard's 4% at moderate volume, and Scale's $5,000 prepay wins at high volume; enable donor-covered fees to offset platform cost.
+- name: Accountability
+  description: Assign owners per campaign; review monthly gross donations, platform fees, and processor fees against the chosen tier.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
