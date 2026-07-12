@@ -1,0 +1,15 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/donately-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic Auth. Use your Donately API token as the username with an empty password
+    (the token is base64-encoded with a trailing colon). Find the token in the Donately dashboard
+    under Settings -> API.
+  sources:
+  - openapi/donately-openapi.yml
