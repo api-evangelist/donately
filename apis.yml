@@ -161,6 +161,8 @@ apis:
     to. Most other endpoints require an account_id parameter identifying which
     account to operate against.
 common:
+- type: AgenticAccess
+  url: agentic-access/donately-agentic-access.yml
 - type: DomainSecurity
   url: security/donately-domain-security.yml
 - type: Authentication
