@@ -1,0 +1,167 @@
+openapi: 3.0.3
+info:
+  title: Donately Accounts People API
+  description: 'The Donately API is a REST/JSON API for online donation and fundraising management. It exposes accounts, campaigns, donations, recurring subscriptions, people (donors), fundraisers, forms, and webhooks. Base URL https://api.donately.com/v2 (API version 2019-03-15). Requests are authenticated with an API token via HTTP Basic Auth (the token is base64-encoded with a trailing colon); the token is found in the Donately dashboard under Settings -> API. Most endpoints require an account_id parameter identifying which account to operate against. NOTE: Donately''s reference renders as a JavaScript single-page app that could not be fully crawled; endpoints confirmed from documentation and third-party connectors are marked as such, and the remainder are modeled on Donately''s Stripe-style REST conventions - verify exact paths against developer.donately.com/api.'
+  version: '2019-03-15'
+  contact:
+    name: Donately
+    url: https://developer.donately.com/
+servers:
+- url: https://api.donately.com/v2
+  description: Donately API (version 2019-03-15)
+security:
+- basicAuth: []
+tags:
+- name: People
+  description: Donors and contacts.
+paths:
+  /people:
+    get:
+      operationId: listPeople
+      tags:
+      - People
+      summary: List people
+      description: Returns the people (donors and contacts) for the specified account. MODELED - verify against the live reference.
+      parameters:
+      - $ref: '#/components/parameters/AccountIdParam'
+      responses:
+        '200':
+          description: A list of people.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createPerson
+      tags:
+      - People
+      summary: Create a person
+      description: Creates a new person (donor/contact). MODELED - verify against the live reference.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonCreate'
+      responses:
+        '200':
+          description: The created person.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /people/{id}:
+    get:
+      operationId: getPerson
+      tags:
+      - People
+      summary: Retrieve a person
+      description: Retrieves a single person by ID. MODELED - verify against the live reference.
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: A person object.
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updatePerson
+      tags:
+      - People
+      summary: Update a person
+      description: Updates an existing person. MODELED - verify against the live reference.
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PersonCreate'
+      responses:
+        '200':
+          description: The updated person.
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or was not provided.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or missing required parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ListResponse:
+      type: object
+      description: Standard Donately list envelope.
+      properties:
+        object:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+        summary:
+          type: object
+        params:
+          type: object
+    PersonCreate:
+      type: object
+      required:
+      - account_id
+      - email
+      properties:
+        account_id:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+    Error:
+      type: object
+      properties:
+        object:
+          type: string
+          example: error
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+            message:
+              type: string
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth. Use your Donately API token as the username with an empty password (the token is base64-encoded with a trailing colon). Find the token in the Donately dashboard under Settings -> API.

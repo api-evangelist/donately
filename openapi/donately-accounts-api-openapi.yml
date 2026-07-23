@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Donately Accounts API
+  description: 'The Donately API is a REST/JSON API for online donation and fundraising management. It exposes accounts, campaigns, donations, recurring subscriptions, people (donors), fundraisers, forms, and webhooks. Base URL https://api.donately.com/v2 (API version 2019-03-15). Requests are authenticated with an API token via HTTP Basic Auth (the token is base64-encoded with a trailing colon); the token is found in the Donately dashboard under Settings -> API. Most endpoints require an account_id parameter identifying which account to operate against. NOTE: Donately''s reference renders as a JavaScript single-page app that could not be fully crawled; endpoints confirmed from documentation and third-party connectors are marked as such, and the remainder are modeled on Donately''s Stripe-style REST conventions - verify exact paths against developer.donately.com/api.'
+  version: '2019-03-15'
+  contact:
+    name: Donately
+    url: https://developer.donately.com/
+servers:
+- url: https://api.donately.com/v2
+  description: Donately API (version 2019-03-15)
+security:
+- basicAuth: []
+tags:
+- name: Accounts
+  description: The organizations a token has access to.
+paths:
+  /accounts:
+    get:
+      operationId: listAccounts
+      tags:
+      - Accounts
+      summary: List accounts
+      description: Lists the accounts (organizations) the authenticated token can access. MODELED - verify against the live reference.
+      responses:
+        '200':
+          description: A list of accounts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /accounts/{id}:
+    get:
+      operationId: getAccount
+      tags:
+      - Accounts
+      summary: Retrieve an account
+      description: Retrieves a single account by ID. MODELED - verify against the live reference.
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: An account object.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or was not provided.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ListResponse:
+      type: object
+      description: Standard Donately list envelope.
+      properties:
+        object:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+        summary:
+          type: object
+        params:
+          type: object
+    Error:
+      type: object
+      properties:
+        object:
+          type: string
+          example: error
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+            message:
+              type: string
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth. Use your Donately API token as the username with an empty password (the token is base64-encoded with a trailing colon). Find the token in the Donately dashboard under Settings -> API.

@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: Donately Accounts Donations API
+  description: 'The Donately API is a REST/JSON API for online donation and fundraising management. It exposes accounts, campaigns, donations, recurring subscriptions, people (donors), fundraisers, forms, and webhooks. Base URL https://api.donately.com/v2 (API version 2019-03-15). Requests are authenticated with an API token via HTTP Basic Auth (the token is base64-encoded with a trailing colon); the token is found in the Donately dashboard under Settings -> API. Most endpoints require an account_id parameter identifying which account to operate against. NOTE: Donately''s reference renders as a JavaScript single-page app that could not be fully crawled; endpoints confirmed from documentation and third-party connectors are marked as such, and the remainder are modeled on Donately''s Stripe-style REST conventions - verify exact paths against developer.donately.com/api.'
+  version: '2019-03-15'
+  contact:
+    name: Donately
+    url: https://developer.donately.com/
+servers:
+- url: https://api.donately.com/v2
+  description: Donately API (version 2019-03-15)
+security:
+- basicAuth: []
+tags:
+- name: Donations
+  description: One-time and recurring gifts.
+paths:
+  /donations:
+    get:
+      operationId: listDonations
+      tags:
+      - Donations
+      summary: List donations
+      description: Returns donations for the specified account. CONFIRMED. Accepts an account_id parameter and standard list pagination parameters.
+      parameters:
+      - $ref: '#/components/parameters/AccountIdParam'
+      responses:
+        '200':
+          description: A list of donations.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createDonation
+      tags:
+      - Donations
+      summary: Create a donation
+      description: Creates a new donation. CONFIRMED. This endpoint can be called unauthenticated for public campaign donations (as the embeddable form does). donation_type accepts cc, ach, cash, or paypal.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DonationCreate'
+      responses:
+        '200':
+          description: The created donation.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /donations/{id}:
+    get:
+      operationId: getDonation
+      tags:
+      - Donations
+      summary: Retrieve a donation
+      description: Retrieves a single donation by ID. MODELED - verify against the live reference.
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: A donation object.
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /donations/{id}/refund:
+    post:
+      operationId: refundDonation
+      tags:
+      - Donations
+      summary: Refund a donation
+      description: Refunds a donation. MODELED - verify against the live reference.
+      parameters:
+      - $ref: '#/components/parameters/IdParam'
+      responses:
+        '200':
+          description: The refunded donation.
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or was not provided.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or missing required parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    ListResponse:
+      type: object
+      description: Standard Donately list envelope.
+      properties:
+        object:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+        summary:
+          type: object
+        params:
+          type: object
+    DonationCreate:
+      type: object
+      required:
+      - account_id
+      - amount_in_cents
+      - donation_type
+      properties:
+        account_id:
+          type: string
+          description: The account this donation belongs to.
+        amount_in_cents:
+          type: integer
+          description: The donation amount in cents.
+        donation_type:
+          type: string
+          enum:
+          - cc
+          - ach
+          - cash
+          - paypal
+          description: The payment method for the donation.
+        campaign_id:
+          type: string
+          description: Optional campaign to attribute the donation to.
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+    Error:
+      type: object
+      properties:
+        object:
+          type: string
+          example: error
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+            message:
+              type: string
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Auth. Use your Donately API token as the username with an empty password (the token is base64-encoded with a trailing colon). Find the token in the Donately dashboard under Settings -> API.
