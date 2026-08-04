@@ -1,0 +1,24 @@
+{
+  "provider": "donately",
+  "sources": [
+    "donately-accounts-api-openapi.yml",
+    "donately-campaigns-api-openapi.yml",
+    "donately-donations-api-openapi.yml",
+    "donately-fundraisers-api-openapi.yml",
+    "donately-people-api-openapi.yml",
+    "donately-subscriptions-api-openapi.yml"
+  ],
+  "outputs": [
+    "donately-accounts-api-openapi.yml",
+    "donately-campaigns-api-openapi.yml",
+    "donately-donations-api-openapi.yml",
+    "donately-fundraisers-api-openapi.yml",
+    "donately-people-api-openapi.yml",
+    "donately-subscriptions-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
