@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Donately Accounts Fundraisers API",
+    "version": "2019-03-15"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Fundraisers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List fundraisers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.donately.com/v2/fundraisers",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the account to operate against."
+              }
+            ]
+          },
+          "docs": "Returns peer-to-peer fundraisers for the specified account or campaign. MODELED - verify against the live reference."
+        },
+        {
+          "info": {
+            "name": "Create a fundraiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.donately.com/v2/fundraisers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new peer-to-peer fundraiser under a campaign. MODELED - verify against the live reference."
+        },
+        {
+          "info": {
+            "name": "Retrieve a fundraiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.donately.com/v2/fundraisers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieves a single fundraiser by ID. MODELED - verify against the live reference."
+        },
+        {
+          "info": {
+            "name": "Update a fundraiser",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.donately.com/v2/fundraisers/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing fundraiser. MODELED - verify against the live reference."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

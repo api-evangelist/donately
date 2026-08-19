@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Donately Accounts Donations API",
+    "version": "2019-03-15"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Donations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List donations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.donately.com/v2/donations",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the account to operate against."
+              }
+            ]
+          },
+          "docs": "Returns donations for the specified account. CONFIRMED. Accepts an account_id parameter and standard list pagination parameters."
+        },
+        {
+          "info": {
+            "name": "Create a donation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.donately.com/v2/donations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new donation. CONFIRMED. This endpoint can be called unauthenticated for public campaign donations (as the embeddable form does). donation_type accepts cc, ach, cash, or paypal."
+        },
+        {
+          "info": {
+            "name": "Retrieve a donation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.donately.com/v2/donations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieves a single donation by ID. MODELED - verify against the live reference."
+        },
+        {
+          "info": {
+            "name": "Refund a donation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.donately.com/v2/donations/:id/refund",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource."
+              }
+            ]
+          },
+          "docs": "Refunds a donation. MODELED - verify against the live reference."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
