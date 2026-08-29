@@ -10,6 +10,18 @@ description: Donately is an online donation and fundraising platform for nonprof
   fundraisers, forms, and webhooks, authenticated with an API token via HTTP
   Basic Auth. Donately charges a platform fee (4%, 2%, or 0% prepaid) on top of
   Stripe/PayPal payment processing.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
