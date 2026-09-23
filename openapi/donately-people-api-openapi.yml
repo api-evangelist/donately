@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Donately Accounts People API
-  description: 'The Donately API is a REST/JSON API for online donation and fundraising management. It exposes accounts, campaigns, donations, recurring subscriptions, people (donors), fundraisers, forms, and webhooks. Base URL https://api.donately.com/v2 (API version 2019-03-15). Requests are authenticated with an API token via HTTP Basic Auth (the token is base64-encoded with a trailing colon); the token is found in the Donately dashboard under Settings -> API. Most endpoints require an account_id parameter identifying which account to operate against. NOTE: Donately''s reference renders as a JavaScript single-page app that could not be fully crawled; endpoints confirmed from documentation and third-party connectors are marked as such, and the remainder are modeled on Donately''s Stripe-style REST conventions - verify exact paths against developer.donately.com/api.'
+  title: Donately People API
+  description: The Donately API is a REST/JSON API for online donation and fundraising management.
   version: '2019-03-15'
   contact:
     name: Donately
@@ -84,7 +84,28 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
   responses:
+    BadRequest:
+      description: The request was malformed or missing required parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
@@ -97,27 +118,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or missing required parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    ListResponse:
-      type: object
-      description: Standard Donately list envelope.
-      properties:
-        object:
-          type: string
-        data:
-          type: array
-          items:
-            type: object
-        summary:
-          type: object
-        params:
-          type: object
     PersonCreate:
       type: object
       required:
@@ -145,21 +146,20 @@ components:
               type: string
             message:
               type: string
-  parameters:
-    IdParam:
-      name: id
-      in: path
-      required: true
-      description: The unique identifier of the resource.
-      schema:
-        type: string
-    AccountIdParam:
-      name: account_id
-      in: query
-      required: true
-      description: The ID of the account to operate against.
-      schema:
-        type: string
+    ListResponse:
+      type: object
+      description: Standard Donately list envelope.
+      properties:
+        object:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+        summary:
+          type: object
+        params:
+          type: object
   securitySchemes:
     basicAuth:
       type: http

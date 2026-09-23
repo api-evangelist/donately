@@ -1,12 +1,7 @@
 {
   "provider": "donately",
   "sources": [
-    "donately-accounts-api-openapi.yml",
-    "donately-campaigns-api-openapi.yml",
-    "donately-donations-api-openapi.yml",
-    "donately-fundraisers-api-openapi.yml",
-    "donately-people-api-openapi.yml",
-    "donately-subscriptions-api-openapi.yml"
+    "_original/donately-openapi.yml"
   ],
   "outputs": [
     "donately-accounts-api-openapi.yml",
@@ -19,6 +14,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "donately-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "donately-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "donately-campaigns-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "donately-donations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "donately-fundraisers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "donately-people-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "donately-subscriptions-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
