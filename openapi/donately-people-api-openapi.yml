@@ -84,30 +84,9 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    IdParam:
-      name: id
-      in: path
-      required: true
-      description: The unique identifier of the resource.
-      schema:
-        type: string
-    AccountIdParam:
-      name: account_id
-      in: query
-      required: true
-      description: The ID of the account to operate against.
-      schema:
-        type: string
   responses:
     BadRequest:
       description: The request was malformed or missing required parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
       content:
         application/json:
           schema:
@@ -118,21 +97,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    PersonCreate:
-      type: object
-      required:
-      - account_id
-      - email
-      properties:
-        account_id:
-          type: string
-        email:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
     Error:
       type: object
       properties:
@@ -160,6 +131,35 @@ components:
           type: object
         params:
           type: object
+    PersonCreate:
+      type: object
+      required:
+      - account_id
+      - email
+      properties:
+        account_id:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+  parameters:
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

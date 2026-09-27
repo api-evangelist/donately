@@ -97,36 +97,26 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    IdParam:
-      name: id
-      in: path
-      required: true
-      description: The unique identifier of the resource.
-      schema:
-        type: string
-    AccountIdParam:
-      name: account_id
-      in: query
-      required: true
-      description: The ID of the account to operate against.
-      schema:
-        type: string
+  responses:
+    BadRequest:
+      description: The request was malformed or missing required parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or was not provided.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    CampaignCreate:
-      type: object
-      required:
-      - account_id
-      - title
-      properties:
-        account_id:
-          type: string
-        title:
-          type: string
-        goal_in_cents:
-          type: integer
-        description:
-          type: string
     Error:
       type: object
       properties:
@@ -154,25 +144,35 @@ components:
           type: object
         params:
           type: object
-  responses:
-    BadRequest:
-      description: The request was malformed or missing required parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed or was not provided.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    CampaignCreate:
+      type: object
+      required:
+      - account_id
+      - title
+      properties:
+        account_id:
+          type: string
+        title:
+          type: string
+        goal_in_cents:
+          type: integer
+        description:
+          type: string
+  parameters:
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

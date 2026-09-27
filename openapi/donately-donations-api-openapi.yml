@@ -79,30 +79,9 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    IdParam:
-      name: id
-      in: path
-      required: true
-      description: The unique identifier of the resource.
-      schema:
-        type: string
-    AccountIdParam:
-      name: account_id
-      in: query
-      required: true
-      description: The ID of the account to operate against.
-      schema:
-        type: string
   responses:
     BadRequest:
       description: The request was malformed or missing required parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
       content:
         application/json:
           schema:
@@ -113,34 +92,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        object:
-          type: string
-          example: error
-        error:
-          type: object
-          properties:
-            type:
-              type: string
-            message:
-              type: string
-    ListResponse:
-      type: object
-      description: Standard Donately list envelope.
-      properties:
-        object:
-          type: string
-        data:
-          type: array
-          items:
-            type: object
-        summary:
-          type: object
-        params:
-          type: object
     DonationCreate:
       type: object
       required:
@@ -171,6 +129,48 @@ components:
           type: string
         email:
           type: string
+    Error:
+      type: object
+      properties:
+        object:
+          type: string
+          example: error
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+            message:
+              type: string
+    ListResponse:
+      type: object
+      description: Standard Donately list envelope.
+      properties:
+        object:
+          type: string
+        data:
+          type: array
+          items:
+            type: object
+        summary:
+          type: object
+        params:
+          type: object
+  parameters:
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http
