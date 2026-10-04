@@ -85,21 +85,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    FundraiserCreate:
-      type: object
-      required:
-      - account_id
-      - campaign_id
-      - title
-      properties:
-        account_id:
-          type: string
-        campaign_id:
-          type: string
-        title:
-          type: string
-        goal_in_cents:
-          type: integer
     Error:
       type: object
       properties:
@@ -127,21 +112,21 @@ components:
           type: object
         params:
           type: object
-  parameters:
-    AccountIdParam:
-      name: account_id
-      in: query
-      required: true
-      description: The ID of the account to operate against.
-      schema:
-        type: string
-    IdParam:
-      name: id
-      in: path
-      required: true
-      description: The unique identifier of the resource.
-      schema:
-        type: string
+    FundraiserCreate:
+      type: object
+      required:
+      - account_id
+      - campaign_id
+      - title
+      properties:
+        account_id:
+          type: string
+        campaign_id:
+          type: string
+        title:
+          type: string
+        goal_in_cents:
+          type: integer
   responses:
     Unauthorized:
       description: Authentication failed or was not provided.
@@ -161,6 +146,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

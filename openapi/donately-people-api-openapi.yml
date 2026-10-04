@@ -85,20 +85,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    PersonCreate:
-      type: object
-      required:
-      - account_id
-      - email
-      properties:
-        account_id:
-          type: string
-        email:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
     Error:
       type: object
       properties:
@@ -126,21 +112,20 @@ components:
           type: object
         params:
           type: object
-  parameters:
-    AccountIdParam:
-      name: account_id
-      in: query
-      required: true
-      description: The ID of the account to operate against.
-      schema:
-        type: string
-    IdParam:
-      name: id
-      in: path
-      required: true
-      description: The unique identifier of the resource.
-      schema:
-        type: string
+    PersonCreate:
+      type: object
+      required:
+      - account_id
+      - email
+      properties:
+        account_id:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
   responses:
     Unauthorized:
       description: Authentication failed or was not provided.
@@ -160,6 +145,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

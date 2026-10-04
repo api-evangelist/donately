@@ -79,35 +79,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    AccountIdParam:
-      name: account_id
-      in: query
-      required: true
-      description: The ID of the account to operate against.
-      schema:
-        type: string
-    IdParam:
-      name: id
-      in: path
-      required: true
-      description: The unique identifier of the resource.
-      schema:
-        type: string
   schemas:
-    Error:
-      type: object
-      properties:
-        object:
-          type: string
-          example: error
-        error:
-          type: object
-          properties:
-            type:
-              type: string
-            message:
-              type: string
     DonationCreate:
       type: object
       required:
@@ -138,6 +110,19 @@ components:
           type: string
         email:
           type: string
+    Error:
+      type: object
+      properties:
+        object:
+          type: string
+          example: error
+        error:
+          type: object
+          properties:
+            type:
+              type: string
+            message:
+              type: string
     ListResponse:
       type: object
       description: Standard Donately list envelope.
@@ -171,6 +156,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    AccountIdParam:
+      name: account_id
+      in: query
+      required: true
+      description: The ID of the account to operate against.
+      schema:
+        type: string
+    IdParam:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier of the resource.
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http
