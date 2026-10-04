@@ -168,6 +168,9 @@ apis:
   - type: OpenCollection
     url: collections/donately.opencollection.json
 common:
+- type: CapabilityMap
+  url: capabilities/donately-capability-edges.yml
+  name: Donately Business Capability Map
 - type: AgenticAccess
   url: agentic-access/donately-agentic-access.yml
 - type: DomainSecurity
