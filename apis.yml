@@ -52,7 +52,7 @@ tags_raw:
 - Donor Management
 - Recurring Giving
 created: '2026-07-05'
-modified: '2026-07-05'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: donately:donately-accounts-api
@@ -168,6 +168,8 @@ apis:
   - type: OpenCollection
     url: collections/donately.opencollection.json
 common:
+- url: https://www.donately.com/blog
+  type: Blog
 - type: CapabilityMap
   url: capabilities/donately-capability-edges.yml
   name: Donately Business Capability Map
