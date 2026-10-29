@@ -1,4 +1,4 @@
-# Donately (donately)
+# Donately
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,87 +64,128 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Donately is an online donation and fundraising platform for nonprofits, churches, and businesses. It provides embeddable donation forms, campaign and peer-to-peer fundraising pages, recurring giving, and donor management. Donately exposes a REST/JSON API at base `https://api.donately.com/v2` (API version 2019-03-15) covering accounts, campaigns, donations, recurring subscriptions, people (donors), fundraisers, forms, and webhooks.
+Donately is an online donation and fundraising platform for nonprofits, churches, and businesses, offering embeddable donation forms, campaign and peer-to-peer fundraising pages, recurring giving, and donor management. Its REST API (base https://api.donately.com/v2, version 2019-03-15) exposes accounts, campaigns, donations, recurring subscriptions, people (donors), fundraisers, forms, and webhooks, authenticated with an API token via HTTP Basic Auth. Donately charges a platform fee (4%, 2%, or 0% prepaid) on top of Stripe/PayPal payment processing.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/donately/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/donately/refs/heads/main/apis.yml)
+**Areas:** Fundraising · Donations · Non-Profit · Payments · Donor Management · Recurring Giving
 
-## Access Model
+## Donately on APIs.io
 
-Donately is a hosted SaaS platform (not open source). Anyone with a Donately account can generate an **API token** from the dashboard (Settings → API, at `dash.donately.com/integrations/api`) and call the REST API. Authentication uses **HTTP Basic Auth**: the API token is supplied as the username with an empty password (the token is base64-encoded with a trailing colon). Most endpoints require an `account_id` parameter identifying which account to operate against. The `POST /donations` create endpoint can additionally be called **unauthenticated** for public campaign donations, which is how the embeddable donation form submits gifts from the browser.
+Everything profiled for Donately is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/donately/](https://apis.io/providers/donately/)** — or go straight to one of the APIs or properties below.
 
-There is no separate fee for API access — Donately's cost model is a platform fee on processed donations (4% Standard, 2% Growth at $99/month, or 0% Scale for a $5,000 prepayment up to $1M raised), stacked on top of Stripe/PayPal payment processing fees.
+### APIs (6)
 
-> **Note on grounding:** Donately's API reference (developer.donately.com/api) renders as a JavaScript single-page app that could not be fully crawled. Endpoints and behavior confirmed from documentation and third-party connectors (Tray, Pipedream) are marked **CONFIRMED**; the remaining CRUD endpoints follow Donately's Stripe-style REST conventions and are marked **MODELED** — verify exact paths and verbs against the live reference before relying on them.
+- [Donately Accounts API](https://apis.io/apis/donately/donately-accounts-api/) — The organizations a token has access to.
+- [Donately Campaigns API](https://apis.io/apis/donately/donately-campaigns-api/) — Fundraising pages with goals and settings.
+- [Donately Donations API](https://apis.io/apis/donately/donately-donations-api/) — One-time and recurring gifts.
+- [Donately Fundraisers API](https://apis.io/apis/donately/donately-fundraisers-api/) — Peer-to-peer fundraising pages under a campaign.
+- [Donately People API](https://apis.io/apis/donately/donately-people-api/) — Donors and contacts.
+- [Donately Subscriptions API](https://apis.io/apis/donately/donately-subscriptions-api/) — Recurring donation schedules.
 
-## Tags
+### Published properties
 
-- Fundraising
-- Donations
-- Nonprofit
-- Payments
-- Donor Management
-- Recurring Giving
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Timestamps
+#### Agentic access (1)
 
-- **Created:** 2026-07-05
-- **Modified:** 2026-07-05
+Which operations an agent can call, which act, and which need a human in the loop.
 
-## APIs
+- [Donately Agentic Access](https://apis.io/agentic-access/donately/donately-agentic-access/)
 
-### Donately Donations API
+#### Collections (7)
 
-Create, list, retrieve, and refund donations against an account or campaign. The create endpoint accepts `donation_type` values of `cc`, `ach`, `cash`, and `paypal` and can be called unauthenticated from public embeddable forms.
+Postman and Open Collection request collections.
 
-- **Human URL:** [https://developer.donately.com/api/](https://developer.donately.com/api/)
-- **Base URL:** `https://api.donately.com/v2`
+- [Donately API](https://apis.io/collections/donately/open-donately/)
+- [Donately Accounts API](https://apis.io/collections/donately/open-donately-accounts-api/)
+- [Donately Accounts Campaigns API](https://apis.io/collections/donately/open-donately-campaigns-api/)
+- [Donately Accounts Donations API](https://apis.io/collections/donately/open-donately-donations-api/)
+- [Donately Accounts Fundraisers API](https://apis.io/collections/donately/open-donately-fundraisers-api/)
+- [Donately Accounts People API](https://apis.io/collections/donately/open-donately-people-api/)
+- [Donately Accounts Subscriptions API](https://apis.io/collections/donately/open-donately-subscriptions-api/)
 
-### Donately People API
+#### Security (2)
 
-Manage the people (donors and contacts) attached to an account — create, list, retrieve, and update person records including name, email, and associated giving history.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://developer.donately.com/api/](https://developer.donately.com/api/)
-- **Base URL:** `https://api.donately.com/v2`
+- [Donately Authentication](https://apis.io/security/donately/donately-authentication/)
+- [Donately Domain Security](https://apis.io/security/donately/donately-domain-security/)
 
-### Donately Campaigns API
+#### Plans and pricing (1)
 
-Create, list, retrieve, update, and delete campaigns — the fundraising pages with goals, titles, and settings that donations and fundraisers are organized under.
+Published plans, tiers and prices.
 
-- **Human URL:** [https://developer.donately.com/api/](https://developer.donately.com/api/)
-- **Base URL:** `https://api.donately.com/v2`
+- [Donately Plans Pricing](https://apis.io/plans/donately/donately-plans-pricing/)
 
-### Donately Fundraisers API
+#### Rate limits (1)
 
-Manage peer-to-peer fundraisers — individual or team fundraising pages created under a campaign, each with its own goal and personal messaging.
+Published request limits.
 
-- **Human URL:** [https://developer.donately.com/api/](https://developer.donately.com/api/)
-- **Base URL:** `https://api.donately.com/v2`
+- [Donately Rate Limits](https://apis.io/rate-limits/donately/donately-rate-limits/)
 
-### Donately Subscriptions API
+#### FinOps (1)
 
-Recurring donation schedules. List subscriptions for an account, retrieve a single subscription by ID, and cancel a subscription. Each subscription generates donations on its configured frequency.
+What the API costs to run, by operation.
 
-- **Human URL:** [https://developer.donately.com/api/](https://developer.donately.com/api/)
-- **Base URL:** `https://api.donately.com/v2`
+- [Donately Finops](https://apis.io/finops/donately/donately-finops/)
 
-### Donately Accounts API
+## Where to find this API
 
-Retrieve and manage the accounts (organizations) a token has access to. Most other endpoints require an `account_id` parameter identifying which account to operate against.
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [https://developer.donately.com/api/](https://developer.donately.com/api/)
-- **Base URL:** `https://api.donately.com/v2`
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/donately)
-- [LinkedIn](https://www.linkedin.com/company/donately)
 - [Website](https://www.donately.com)
 - [Documentation](https://developer.donately.com/)
-- [Plans](plans/donately-plans-pricing.yml)
-- [Rate Limits](rate-limits/donately-rate-limits.yml)
-- [Fin Ops](finops/donately-finops.yml)
+- [Blog](https://www.donately.com/blog)
+- [GitHub](https://github.com/donately)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 25.2** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 52.8 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 7.9 |
+
+**Agent readiness 19.6** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.7** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/donately/](https://apis.io/providers/donately/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Donately: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/donately/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
